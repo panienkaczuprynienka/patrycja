@@ -1,36 +1,26 @@
 package sandbox;
 
 
-import TestHelpers.TestStatus;
-import org.apache.commons.io.FileUtils;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInfo;
-import org.junit.jupiter.api.extension.RegisterExtension;
-import org.openqa.selenium.*;
+import org.assertj.core.api.Assertions;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.html5.LocalStorage;
 import org.openqa.selenium.html5.SessionStorage;
-import org.openqa.selenium.io.FileHandler;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
 
 public class ChromeTest extends TestBase {
 
-  @RegisterExtension
-  TestStatus status = new TestStatus();
-
-  @Test
+  @Test(enabled = false)
   public void test() {
     //driver.get("https://gofile.io/uploadFiles");
     // Assertions.assertTrue(driver.getCurrentUrl().contains("google"));
@@ -52,9 +42,7 @@ public class ChromeTest extends TestBase {
     By by = By.xpath("//span[.='Patrycja – Wikipedia, wolna encyklopedia']");
     WebDriverWait wait = new WebDriverWait(driver, 1, 1000);
     wait.until(ExpectedConditions.presenceOfElementLocated(by));
-    Assertions.assertTrue(driver.findElements(by).size() > 0, "Nie dziala!!");
-
-
+    Assertions.assertThat(driver.findElements(by)).as("Nie dziala!!").hasSizeGreaterThan(0);
   }
 
   @Test
@@ -72,7 +60,7 @@ public class ChromeTest extends TestBase {
     driver.switchTo().parentFrame();
   }
 
-  @Test
+  @Test(enabled = false)
   public void jsTest() throws InterruptedException {
     driver.get("https://www.empik.com");
     driver.manage().window().maximize();
@@ -98,7 +86,7 @@ public class ChromeTest extends TestBase {
   }
 
 
-  @Test
+  @Test(enabled = false)
   public void storageTest() {
     ChromeDriver driver = new ChromeDriver();
     driver.navigate().to("https://airly.org/map/en/#52.0971398,21.0651967");
@@ -114,7 +102,7 @@ public class ChromeTest extends TestBase {
     Set<String> secikpo_dodaniu = local.keySet();
   }
 
-  @Test
+  @Test(enabled = false)
   public void sessionStorageTest() {
     ChromeDriver driver = new ChromeDriver();
     driver.navigate().to("https://www.youtube.com/watch?v=dJ9WFUFwuZM&ab_channel=GazetkiiPromocje");
@@ -146,7 +134,7 @@ public class ChromeTest extends TestBase {
     ((JavascriptExecutor) driver).executeScript("localStorage.clear();");
   }
 
-
+/*
   public String takeScreenShot(TestInfo testInfo) throws IOException {
     File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
     LocalDateTime time = LocalDateTime.now();
@@ -155,15 +143,19 @@ public class ChromeTest extends TestBase {
     FileHandler.copy(screenshot, new File(path));
     return path;
   }
+*/
+
 
   //@Override
-  @AfterEach
-  public void teardown(TestInfo testInfo) throws IOException {
+  @AfterTest
+  public void teardown() throws IOException { //z parametrów wycieto TestInfo testInfo
     if (driver != null) {
       System.out.println("Uzyto overrida");
+      /*
       if (status.isFailed) {
         System.out.println("Screenshot is available at: " + takeScreenShot(testInfo));
       }
+      */
       driver.quit();
     }
   }

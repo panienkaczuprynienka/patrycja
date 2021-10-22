@@ -1,16 +1,10 @@
 package sandbox;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-import io.github.bonigarcia.wdm.config.DriverManagerType;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -20,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class TestBase {
   protected WebDriver driver;
 
-  @BeforeEach
+  @BeforeTest
   public void setUp() throws ClassNotFoundException, IllegalAccessException, InstantiationException, MalformedURLException {
     //WebDriverManager.chromedriver().setup();
     ChromeOptions options = new ChromeOptions();
@@ -43,7 +37,7 @@ public class TestBase {
   }
 
 
-  @AfterEach
+  @AfterTest
   public void teardown() throws IOException {
     if (driver != null) {
       driver.quit();

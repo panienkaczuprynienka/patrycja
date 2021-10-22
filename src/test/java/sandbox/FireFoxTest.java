@@ -2,10 +2,10 @@ package sandbox;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.bonigarcia.wdm.config.DriverManagerType;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class FireFoxTest extends TestBase {
 
@@ -13,7 +13,7 @@ public class FireFoxTest extends TestBase {
   private WebDriver driver;
 
 
-  @BeforeEach
+  @BeforeTest
   public void setUp() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
     DriverManagerType firefox = DriverManagerType.FIREFOX;
     WebDriverManager.getInstance(firefox).setup();
@@ -28,7 +28,7 @@ public class FireFoxTest extends TestBase {
   }
 
 
-  @AfterEach
+  @AfterTest
   public void teardown() {
     if (driver != null) {
       driver.quit();
